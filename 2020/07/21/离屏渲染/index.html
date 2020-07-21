@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Archives: 2020/7 | hechao的diary</title>
+  <title>离屏渲染 | hechao的diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="hechao的diary">
-<meta property="og:url" content="http://yoursite.com/archives/2020/07/index.html">
+  <meta name="description" content="下面几种情况会触发离屏渲染：1、使用了mask的layer(layer.mask)2、需要进行裁剪的layer(layer.maskToBounds &#x2F; view.clipsToBounds)3、设置了组透明度为yes，并且透明度不为1的layer(layer.allowGroupOpacity &#x2F; layer.opacity)4、添加了投影的layer(layer.shadow)5、采用了光栅化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离屏渲染">
+<meta property="og:url" content="http://yoursite.com/2020/07/21/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/index.html">
 <meta property="og:site_name" content="hechao的diary">
+<meta property="og:description" content="下面几种情况会触发离屏渲染：1、使用了mask的layer(layer.mask)2、需要进行裁剪的layer(layer.maskToBounds &#x2F; view.clipsToBounds)3、设置了组透明度为yes，并且透明度不为1的layer(layer.allowGroupOpacity &#x2F; layer.opacity)4、添加了投影的layer(layer.shadow)5、采用了光栅化">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-21T08:27:55.000Z">
+<meta property="article:modified_time" content="2020-07-21T08:28:43.448Z">
 <meta property="article:author" content="hechao">
 <meta name="twitter:card" content="summary">
   
@@ -68,58 +72,53 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/21/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/" class="archive-article-date">
-  <time class="dt-published" datetime="2020-07-21T08:27:55.000Z" itemprop="datePublished">Jul 21</time>
+        <section id="main"><article id="post-离屏渲染" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/21/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/" class="article-date">
+  <time class="dt-published" datetime="2020-07-21T08:27:55.000Z" itemprop="datePublished">2020-07-21</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">离屏渲染</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      离屏渲染
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/21/%E4%BB%8A%E5%A4%A9%E5%A4%A9%E6%B0%94%E4%B8%8D%E9%94%99/" class="archive-article-date">
-  <time class="dt-published" datetime="2020-07-21T06:24:55.000Z" itemprop="datePublished">Jul 21</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E4%BB%8A%E5%A4%A9%E5%A4%A9%E6%B0%94%E4%B8%8D%E9%94%99/">今天天气不错</a>
-    </h1>
-  
+        <p>下面几种情况会触发离屏渲染：<br>1、使用了mask的layer(layer.mask)<br>2、需要进行裁剪的layer(layer.maskToBounds / view.clipsToBounds)<br>3、设置了组透明度为yes，并且透明度不为1的layer(layer.allowGroupOpacity / layer.opacity)<br>4、添加了投影的layer(layer.shadow)<br>5、采用了光栅化的layer(layer.shouldRasterize)<br>6、绘制了文字的layer(UILabel,CATextLayer,Core Text等)</p>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/21/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/" data-id="ckcvof6i70000l4whapidarcb" data-title="离屏渲染" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/21/%E4%BB%8A%E5%A4%A9%E5%A4%A9%E6%B0%94%E4%B8%8D%E9%94%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">今天天气不错</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>
