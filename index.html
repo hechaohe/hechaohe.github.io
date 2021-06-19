@@ -145,6 +145,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/13/%E5%85%B3%E4%BA%8Emasonry%E5%B8%83%E5%B1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hechao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hechao的diary">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/13/%E5%85%B3%E4%BA%8Emasonry%E5%B8%83%E5%B1%80/" class="post-title-link" itemprop="url">关于masnory布局</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-13 11:47:23" itemprop="dateCreated datePublished" datetime="2021-01-13T11:47:23+08:00">2021-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-06-19 18:12:03" itemprop="dateModified" datetime="2021-06-19T18:12:03+08:00">2021-06-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>mas_remakeConstraints<br>mas_updateConstraints<br>mas_makeConstraints<br>UIViewAlertForUnsatisfiableConstraints</p>
+<p>//显示多列按钮</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSArray *viewArray &#x3D; @[buyBtn, saleBtn, remindBtn];</span><br><span class="line">[viewArray mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:70 leadSpacing:10 tailSpacing:5];</span><br><span class="line">[viewArray makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">    make.centerY.equalTo(bottomView);</span><br><span class="line">    make.height.equalTo(35);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>masonry 动画</p>
+<pre><code>[self.view addSubview:self.filterView];
+[self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.left.mas_equalTo(SCREEN_WIDTH);
+    make.top.mas_equalTo(self.operatView.mas_bottom);
+    make.width.mas_equalTo(SCREEN_WIDTH);
+    make.bottom.mas_equalTo(0);
+}];
+
+self.operatView.operatSilterBlock = ^{
+
+    [UIView animateWithDuration:0.3 animations:^{
+        weakSelf.filterView.hidden = NO;
+        [weakSelf.filterView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(0);
+        }];
+        // 需要调用这个方法
+        [weakSelf.view layoutIfNeeded];
+    }];
+
+};</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/22/block%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -349,7 +437,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
