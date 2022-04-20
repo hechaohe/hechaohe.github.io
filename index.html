@@ -145,6 +145,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/20/iOS%E9%9D%99%E6%80%81%E5%BA%93%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hechao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hechao的diary">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/20/iOS%E9%9D%99%E6%80%81%E5%BA%93%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">iOS静态库打包问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-20 16:44:34 / Modified: 17:14:33" itemprop="dateCreated datePublished" datetime="2022-04-20T16:44:34+08:00">2022-04-20</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一、iOS静态库打包.a文件<br>1、build生成Debug-iphoneos和Debug-iphonesimulator lib.a文件<br>2、合成模拟器和真机.a文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lipo -create iphoneos.a iphonesimulator -output new.a</span><br><span class="line">Exmaple:</span><br><span class="line">lipo -create &#x2F;Users&#x2F;hechao&#x2F;Library&#x2F;Developer&#x2F;Xcode&#x2F;DerivedData&#x2F;SGECNetService-gzmdcobzfojmfaascggxhupdtpym&#x2F;Build&#x2F;Products&#x2F;Debug-iphoneos&#x2F;libSGECNetService.a &#x2F;Users&#x2F;hechao&#x2F;Library&#x2F;Developer&#x2F;Xcode&#x2F;DerivedData&#x2F;SGECNetService-gzmdcobzfojmfaascggxhupdtpym&#x2F;Build&#x2F;Products&#x2F;Debug-iphonesimulator&#x2F;libSGECNetService.a -output &#x2F;Users&#x2F;hechao&#x2F;Library&#x2F;Developer&#x2F;Xcode&#x2F;DerivedData&#x2F;SGECNetService-gzmdcobzfojmfaascggxhupdtpym&#x2F;Build&#x2F;Products&#x2F;libSGECNetService.a</span><br></pre></td></tr></table></figure>
+<p>3、验证合包是否成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -info libSGECNetService.a</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Architectures in the fat file: &#x2F;Users&#x2F;hechao&#x2F;Library&#x2F;Developer&#x2F;Xcode&#x2F;DerivedData&#x2F;SGECNetService-gzmdcobzfojmfaascggxhupdtpym&#x2F;Build&#x2F;Products&#x2F;libSGECNetService.a are: x86_64 arm64</span><br></pre></td></tr></table></figure>
+<p>4、导入工程引入.h文件</p>
+<p>二、解决库冲突<br>打包好的.a文件有时包含项目中已引用的第三方sdk，这是会报duplicate symbol for architecture arm64(x86_x64) 这是需要移除冲突的.o文件<br>1、一般静态库都是’胖(fat)’库, 里面包含多个架构，, 这个命令一般会输出 “xxx.a are: armv7 x86_64 arm64” </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -info lib.a</span><br></pre></td></tr></table></figure>
+<p>2、按照架构分解.a，我们需要把不同架构的.a文件分解出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lipo -thin arm64 .&#x2F;lib.a -output .&#x2F;arm64.a</span><br><span class="line">lipo -thin armv7 .&#x2F;lib.a -output .&#x2F;armv7.a</span><br><span class="line">lipo -thin x86_64 .&#x2F;lib.a -output .&#x2F;x86_64.a</span><br></pre></td></tr></table></figure>
+<p>3、查看.a文件包含的.o文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar -v -t .&#x2F;arm64.a</span><br></pre></td></tr></table></figure>
+<p>4、删除.a文件中包含的.o文件<br>根据实际情况，删除包含的.o文件，每个架构都要删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ar -v -d arm64.a AFURLSessionManager.o </span><br><span class="line">ar -v -d armv7.a AFURLSessionManager.o </span><br><span class="line">ar -v -d x86_64.a AFURLSessionManager.o</span><br></pre></td></tr></table></figure>
+<p>5、最后合并所有架构的.a文件成一个新的.a胖包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -create .&#x2F;arm64.a .&#x2F;armv7.a .&#x2F;x86_64.a -output .&#x2F;lib.a</span><br></pre></td></tr></table></figure>
+<p>Finish！🐯🐯🐯🐯🐯🐯</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/08/wkwebview%E5%AF%8C%E6%96%87%E6%9C%AC%E9%AB%98%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -246,7 +322,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-06-19 18:22:01" itemprop="dateModified" datetime="2021-06-19T18:22:01+08:00">2021-06-19</time>
+                <time title="Modified: 2021-06-19 18:23:33" itemprop="dateModified" datetime="2021-06-19T18:23:33+08:00">2021-06-19</time>
               </span>
 
           
@@ -267,15 +343,8 @@
 <p>设置富文本</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSMutableAttributedString *attStr &#x3D; [[NSMutableAttributedString alloc] initWithData:data options:options documentAttributes:nil error:nil];</span><br><span class="line">&#x2F;&#x2F;设置段落格式</span><br><span class="line">NSMutableParagraphStyle *para &#x3D; [[NSMutableParagraphStyle alloc] init];</span><br><span class="line">para.lineSpacing &#x3D; 7;</span><br><span class="line">para.paragraphSpacing &#x3D; 10;</span><br><span class="line">[attStr addAttribute:NSParagraphStyleAttributeName value:para range:NSMakeRange(0, attStr.length)];</span><br><span class="line">self.richTextLb.attributedText &#x3D; attStr;</span><br></pre></td></tr></table></figure>
 <p>可以直接使用html样式</p>
-<pre><code>NSString *str = @&quot;&lt;font color=\&quot;#6c6c6c\&quot;&gt;满20减5 满40减15，还剩&lt;font color=\&quot;#ff9147\&quot;&gt;113天&quot;;
-UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, 300, 50)];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSString *str &#x3D; @&quot;&lt;font color&#x3D;\&quot;#6c6c6c\&quot;&gt;满20减5 满40减15，还剩&lt;font color&#x3D;\&quot;#ff9147\&quot;&gt;113天&quot;;</span><br><span class="line">UILabel *label &#x3D; [[UILabel alloc] initWithFrame:CGRectMake(30, 50, 300, 50)];</span><br><span class="line"></span><br><span class="line">NSAttributedString *attrStr &#x3D; [[NSAttributedString alloc] initWithData:[str dataUsingEncoding:NSUnicodeStringEncoding] options:@&#123;NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType&#125; documentAttributes:nil error:nil];</span><br><span class="line"></span><br><span class="line">label.attributedText &#x3D; attrStr;</span><br><span class="line">&#x2F;&#x2F;如果想要改变文字的字体,请在设置attributedText之后设置</span><br><span class="line">label.font &#x3D; [UIFont systemFontOfSize:20];</span><br><span class="line">[self.view addSubview:label];</span><br></pre></td></tr></table></figure>
 
-NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[str dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
-
-label.attributedText = attrStr;
-//如果想要改变文字的字体,请在设置attributedText之后设置
-label.font = [UIFont systemFontOfSize:20];
-[self.view addSubview:label];</code></pre>
       
     </div>
 
@@ -586,7 +655,7 @@ self.operatView.operatSilterBlock = ^{
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -614,7 +683,7 @@ self.operatView.operatSilterBlock = ^{
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
